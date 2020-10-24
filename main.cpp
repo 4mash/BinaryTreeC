@@ -18,7 +18,7 @@ int main(void)
 	int key = 10;
 	std::cout << "Tree size: " << tree->getSize() << std::endl;
 	std::cout << "Key " << key << ((tree->Check(key)) ? " does exist" : " does not exist!");
-	tree->Remove(8);
+	tree->Remove(1);
 	tree->Print(tree->getRoot(), 0);
 	return 0;
 }

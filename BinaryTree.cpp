@@ -66,19 +66,38 @@ bool BinaryTree::Remove(int value)
 	}
 	else
 	{
+		Node* temp = n->right;
+		while (temp->left)
+		{
+			temp = temp->left;
+		}
+
 		if (parent->left == n)
 		{
-			parent->left = n->right;
-			if (n->left)
-				parent->left->left = n->left;
+			parent->left = temp;
+			parent->left->left = n->left;
+			parent->left->right = n->right;
+			parent->left->parent = parent;
 			delete n;
+			delete temp;
 		}
 		else if (parent->right == n)
 		{
-			parent->right = n->right;
-			if (n->left)
-				parent->right->left = n->left;
+			parent->right = temp;
+			parent->right->left = n->left;
+			parent->right->right = n->right;
+			parent->right->parent = parent;
 			delete n;
+			if (temp->parent->left == temp)
+			{
+				delete temp->parent->left;
+				temp->parent->left = nullptr;
+			}
+			else if (temp->parent->right == temp)
+			{
+				delete temp->parent->right;
+				temp->parent->right = nullptr;
+			}
 		}
 	}
 	return true;
