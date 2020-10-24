@@ -7,18 +7,25 @@ int main(void)
 {
 	srand(unsigned(time(nullptr)));
 	BinaryTree *tree = new BinaryTree();
-	tree->Add(5);
-	tree->Add(1);
-	tree->Add(3);
-	tree->Add(2);
+	for (int i = 0; i < 10; i++)
+	{
+		tree->Add(rand() % 25);
+	}
+	/*tree->Add(15);
+	tree->Add(10);
+	tree->Add(20);
 	tree->Add(8);
-	tree->Add(-2);
-	tree->Add(11);
+	tree->Add(12);
+	tree->Add(18);
+	tree->Add(30);
+	tree->Add(16);
+	tree->Add(19);*/
 	tree->Print(tree->getRoot(), 0);
-	int key = 10;
+	int key = rand()%25;
 	std::cout << "Tree size: " << tree->getSize() << std::endl;
 	std::cout << "Key " << key << ((tree->Check(key)) ? " does exist" : " does not exist!");
-	tree->Remove(1);
+	tree->Remove(key);
 	tree->Print(tree->getRoot(), 0);
+	
 	return 0;
 }

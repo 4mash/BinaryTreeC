@@ -10,20 +10,18 @@ bool BinaryTree::Add(int value)
 {
 	if (root == nullptr)
 	{
-		root = new Node();
-		root->key = value;
+		root = new BinaryTree::Node(value);
 		size++;
 		return true;
 	}
-	Node* n = root;
+	BinaryTree::Node* n = root;
 	while (n != nullptr)
 	{
 		if (value >= n->key)
 		{
 			if (n->right == nullptr)
 			{
-				n->right = new Node();
-				n->right->key = value;
+				n->right = new BinaryTree::Node(value);
 				n->right->parent = n;
 				size++;
 				break;
@@ -34,8 +32,7 @@ bool BinaryTree::Add(int value)
 		{
 			if (n->left == nullptr)
 			{
-				n->left = new Node();
-				n->left->key = value;
+				n->left = new BinaryTree::Node(value);
 				n->left->parent = n;
 				size++;
 				break;
@@ -48,62 +45,65 @@ bool BinaryTree::Add(int value)
 
 bool BinaryTree::Remove(int value)
 {
-	Node* n = Check(value);
+	BinaryTree::Node* n = Check(value);
 	if (n == nullptr) return false;
-	Node* parent = n->parent;
-	if (n->left == nullptr && n->right == nullptr)
+	BinaryTree::Node* parent = n->parent;
+	if (n->left == nullptr && n->right == nullptr)	//Deletion node has no children, is a leaf node.
 	{
-		if (parent->left == n) 
+		if (n != root)
 		{
-			delete parent->left; 
-			parent->left = nullptr;
+			if (parent->left == n) parent->left = nullptr;
+			else parent->right = nullptr;
+			size--;
 		}
-		else if (parent->right == n)
+		else
 		{
-			delete parent->right;
-			parent->right = nullptr;
+			root = nullptr;
+			size = 0;
 		}
+		delete n;
 	}
-	else
+	else if (n->right && n->left)	//Deletion node has two children.
 	{
-		Node* temp = n->right;
-		while (temp->left)
+		BinaryTree::Node* successor = minimumKey(n->right);
+		n->key = successor->key;
+		if (successor->parent->left == successor)
 		{
-			temp = temp->left;
+			if (successor->right)
+				successor->parent->left = successor->right;
+			else successor->parent->left = successor->left;
 		}
-
-		if (parent->left == n)
+		else
 		{
-			parent->left = temp;
-			parent->left->left = n->left;
-			parent->left->right = n->right;
-			parent->left->parent = parent;
-			delete n;
-			delete temp;
-		}
-		else if (parent->right == n)
+			if (successor->right)
+				successor->parent->right = successor->right;
+			else successor->parent->right = successor->left;
+		}	
+		delete successor;
+		size--;
+	}
+	else	//Deletion node has at least one child.
+	{
+		BinaryTree::Node* child = (n->left) ? n->left : n->right;
+		if (n != root)
 		{
-			parent->right = temp;
-			parent->right->left = n->left;
-			parent->right->right = n->right;
-			parent->right->parent = parent;
-			delete n;
-			if (temp->parent->left == temp)
-			{
-				delete temp->parent->left;
-				temp->parent->left = nullptr;
-			}
-			else if (temp->parent->right == temp)
-			{
-				delete temp->parent->right;
-				temp->parent->right = nullptr;
-			}
+			if (parent->left == n) parent->left = child;
+			else parent->right = child;
+			size--;
 		}
+		else root = child;
+		delete n;
 	}
 	return true;
 }
 
-void BinaryTree::Print(Node *n, int spacing)
+bool BinaryTree::Empty()
+{
+
+	return false;
+}
+
+void BinaryTree::Print(BinaryTree::Node *n, int spacing)
 {
 	if (n == nullptr)
 		return;
@@ -125,9 +125,9 @@ void BinaryTree::Print(Node *n, int spacing)
 	Print(n->left, spacing);
 }
 
-Node* BinaryTree::Check(int value)
+BinaryTree::Node* BinaryTree::Check(int value)
 {
-	Node* n = root;
+	BinaryTree::Node* n = root;
 	while (n != nullptr)
 	{
 		if (value == n->key)
@@ -145,7 +145,7 @@ Node* BinaryTree::Check(int value)
 	}
 }
 
-Node* BinaryTree::getRoot() const
+BinaryTree::Node* BinaryTree::getRoot() const
 {
 	return root;
 }
@@ -153,4 +153,11 @@ Node* BinaryTree::getRoot() const
 unsigned int BinaryTree::getSize() const
 {
 	return size;
+}
+
+BinaryTree::Node* BinaryTree::minimumKey(Node* n)
+{
+	while (n->left != nullptr)
+		n = n->left;
+	return n;
 }
