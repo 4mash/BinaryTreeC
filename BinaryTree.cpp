@@ -112,17 +112,22 @@ bool BinaryTree<T>::Empty()
 		return true;
 	}
 	BinaryTree<T>::Node* n = root;
+	BinaryTree<T>::Node* t = nullptr;
 
 	while (n != nullptr)
 	{
-		if (n != nullptr)
+		if (n->left != nullptr)
 		{
 			n = n->left;
 		}
-		else
+		else if (n->right != nullptr)
 		{
 			std::cout << " " << n->key << " ";
 			n = n->right;
+		}
+		else if (n->right == nullptr && n->left == nullptr)
+		{
+			
 		}
 	}
 	return true;
