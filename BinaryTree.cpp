@@ -111,35 +111,18 @@ bool BinaryTree<T>::Empty()
 		size = 0;
 		return true;
 	}
-	BinaryTree<T>::Node* n = leafNode(true);
+	BinaryTree<T>::Node* n = root;
 
 	while (n != nullptr)
 	{
-		if (n->left)
+		if (n != nullptr)
 		{
 			n = n->left;
 		}
-		else if (n->right)
+		else
 		{
+			std::cout << " " << n->key << " ";
 			n = n->right;
-		}
-		else if (n->left == nullptr && n->right == nullptr)
-		{
-			if (n->parent)
-			{
-				if (n->parent->left == n)
-				{
-					delete n->parent->left;
-					n->parent->left = nullptr;
-				}
-				else if (n->parent->right == n)
-				{
-					delete n->parent->right;
-					n->parent->right = nullptr;
-				}
-			}
-			n = n->parent;
-			size--;
 		}
 	}
 	return true;
@@ -245,3 +228,20 @@ typename BinaryTree<T>::Node* BinaryTree<T>::leafNode(bool left)
 
 	return n;
 }
+
+
+template class BinaryTree<int>;
+template class BinaryTree<unsigned int>;
+template class BinaryTree<char>;
+template class BinaryTree<unsigned char>;
+template class BinaryTree<signed char>;
+template class BinaryTree<short>;
+template class BinaryTree<unsigned short>;
+template class BinaryTree<long int>;
+template class BinaryTree<unsigned long int>;
+template class BinaryTree<long long int>;
+template class BinaryTree<unsigned long long int>;
+template class BinaryTree<float>;
+template class BinaryTree<double>;
+template class BinaryTree<long double>;
+template class BinaryTree<wchar_t>;

@@ -25,8 +25,6 @@ int main(void)
 
 	std::cout << "Size: " << tree->getSize() << std::endl;
 	std::cout << "Key " << 12 << ((tree->Check(12)) ? " does exist" : " does not exist!");
-//	tree->Empty();
-	std::cout << "Size: " << tree->getSize() << std::endl;
-	
+
 	return 0;
 }
