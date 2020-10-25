@@ -103,7 +103,46 @@ bool BinaryTree<T>::Remove(T value)
 template<typename T>
 bool BinaryTree<T>::Empty()
 {
-	return false;
+	if (root == nullptr) return false;
+	if (root->left == nullptr && root->right == nullptr)
+	{
+		delete root;
+		root = nullptr;
+		size = 0;
+		return true;
+	}
+	BinaryTree<T>::Node* n = leafNode(true);
+
+	while (n != nullptr)
+	{
+		if (n->left)
+		{
+			n = n->left;
+		}
+		else if (n->right)
+		{
+			n = n->right;
+		}
+		else if (n->left == nullptr && n->right == nullptr)
+		{
+			if (n->parent)
+			{
+				if (n->parent->left == n)
+				{
+					delete n->parent->left;
+					n->parent->left = nullptr;
+				}
+				else if (n->parent->right == n)
+				{
+					delete n->parent->right;
+					n->parent->right = nullptr;
+				}
+			}
+			n = n->parent;
+			size--;
+		}
+	}
+	return true;
 }
 
 template<typename T>
@@ -166,6 +205,7 @@ typename BinaryTree<T>::Node* BinaryTree<T>::Check(T value)
 			else return nullptr;
 		}
 	}
+	return n;
 }
 
 template<typename T>
@@ -194,13 +234,14 @@ typename BinaryTree<T>::Node* BinaryTree<T>::leafNode(bool left)
 	BinaryTree<T>::Node* n = root;
 	if (left)
 	{
-		while (n != nullptr)
+		while (n->left != nullptr)
 			n = n->left;
 	}
 	else
 	{
-		while (n != nullptr)
+		while (n->right != nullptr)
 			n = n->right;
 	}
+
 	return n;
 }

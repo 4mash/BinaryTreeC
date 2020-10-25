@@ -22,10 +22,11 @@ int main(void)
 	tree->Add(19);
 	tree->Add(25);
 	tree->Print(tree->getRoot(), 0);
-	int key = 12;
-	std::cout << "Tree size: " << tree->Count(12) << std::endl;
-	std::cout << "Key " << key << ((tree->Check(key)) ? " does exist" : " does not exist!");
-	tree->Print(tree->getRoot(), 0);
+
+	std::cout << "Size: " << tree->getSize() << std::endl;
+	std::cout << "Key " << 12 << ((tree->Check(12)) ? " does exist" : " does not exist!");
+//	tree->Empty();
+	std::cout << "Size: " << tree->getSize() << std::endl;
 	
 	return 0;
 }
