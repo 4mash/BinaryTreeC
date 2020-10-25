@@ -1,27 +1,29 @@
 #include "BinaryTree.h"
 
-BinaryTree::BinaryTree()
+template<typename T>
+BinaryTree<T>::BinaryTree()
 {
 	size = 0;
 	root = nullptr;
 }
 
-bool BinaryTree::Add(int value)
+template<typename T>
+bool BinaryTree<T>::Add(T value)
 {
 	if (root == nullptr)
 	{
-		root = new BinaryTree::Node(value);
+		root = new BinaryTree<T>::Node(value);
 		size++;
 		return true;
 	}
-	BinaryTree::Node* n = root;
+	BinaryTree<T>::Node* n = root;
 	while (n != nullptr)
 	{
 		if (value >= n->key)
 		{
 			if (n->right == nullptr)
 			{
-				n->right = new BinaryTree::Node(value);
+				n->right = new BinaryTree<T>::Node(value);
 				n->right->parent = n;
 				size++;
 				break;
@@ -32,7 +34,7 @@ bool BinaryTree::Add(int value)
 		{
 			if (n->left == nullptr)
 			{
-				n->left = new BinaryTree::Node(value);
+				n->left = new BinaryTree<T>::Node(value);
 				n->left->parent = n;
 				size++;
 				break;
@@ -43,12 +45,13 @@ bool BinaryTree::Add(int value)
 	return true;
 }
 
-bool BinaryTree::Remove(int value)
+template<typename T>
+bool BinaryTree<T>::Remove(T value)
 {
-	BinaryTree::Node* n = Check(value);
+	BinaryTree<T>::Node* n = Check(value);
 	if (n == nullptr) return false;
-	BinaryTree::Node* parent = n->parent;
-	if (n->left == nullptr && n->right == nullptr)	//Deletion node has no children, is a leaf node.
+	BinaryTree<T>::Node* parent = n->parent;
+	if (n->left == nullptr && n->right == nullptr)	//Node to be deleted has no children, is a leaf node.
 	{
 		if (n != root)
 		{
@@ -65,7 +68,7 @@ bool BinaryTree::Remove(int value)
 	}
 	else if (n->right && n->left)	//Deletion node has two children.
 	{
-		BinaryTree::Node* successor = minimumKey(n->right);
+		BinaryTree<T>::Node* successor = minimumKey(n->right);
 		n->key = successor->key;
 		if (successor->parent->left == successor)
 		{
@@ -84,7 +87,7 @@ bool BinaryTree::Remove(int value)
 	}
 	else	//Deletion node has at least one child.
 	{
-		BinaryTree::Node* child = (n->left) ? n->left : n->right;
+		BinaryTree<T>::Node* child = (n->left) ? n->left : n->right;
 		if (n != root)
 		{
 			if (parent->left == n) parent->left = child;
@@ -97,13 +100,32 @@ bool BinaryTree::Remove(int value)
 	return true;
 }
 
-bool BinaryTree::Empty()
+template<typename T>
+bool BinaryTree<T>::Empty()
 {
-
 	return false;
 }
 
-void BinaryTree::Print(BinaryTree::Node *n, int spacing)
+template<typename T>
+unsigned int BinaryTree<T>::Count(T value)
+{
+	int count = 0;
+	BinaryTree<T>::Node* n = root;
+	while (n != nullptr)
+	{
+		if (n->key == value)
+			count++;
+		if (value < n->key)
+			n = n->left;
+		else if (value >= n->key)
+			n = n->right;
+		
+	}
+	return count;
+}
+
+template<typename T>
+void BinaryTree<T>::Print(BinaryTree<T>::Node *n, int spacing)
 {
 	if (n == nullptr)
 		return;
@@ -125,9 +147,10 @@ void BinaryTree::Print(BinaryTree::Node *n, int spacing)
 	Print(n->left, spacing);
 }
 
-BinaryTree::Node* BinaryTree::Check(int value)
+template<typename T>
+typename BinaryTree<T>::Node* BinaryTree<T>::Check(T value)
 {
-	BinaryTree::Node* n = root;
+	BinaryTree<T>::Node* n = root;
 	while (n != nullptr)
 	{
 		if (value == n->key)
@@ -145,19 +168,39 @@ BinaryTree::Node* BinaryTree::Check(int value)
 	}
 }
 
-BinaryTree::Node* BinaryTree::getRoot() const
+template<typename T>
+typename BinaryTree<T>::Node* BinaryTree<T>::getRoot() const
 {
 	return root;
 }
 
-unsigned int BinaryTree::getSize() const
+template<typename T>
+unsigned int BinaryTree<T>::getSize() const
 {
 	return size;
 }
 
-BinaryTree::Node* BinaryTree::minimumKey(Node* n)
+template<typename T>
+typename BinaryTree<T>::Node* BinaryTree<T>::minimumKey(Node* n)
 {
 	while (n->left != nullptr)
 		n = n->left;
+	return n;
+}
+
+template<typename T>
+typename BinaryTree<T>::Node* BinaryTree<T>::leafNode(bool left)
+{
+	BinaryTree<T>::Node* n = root;
+	if (left)
+	{
+		while (n != nullptr)
+			n = n->left;
+	}
+	else
+	{
+		while (n != nullptr)
+			n = n->right;
+	}
 	return n;
 }

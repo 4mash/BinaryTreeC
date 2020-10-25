@@ -1,17 +1,18 @@
 #pragma once
 #include <iostream>
 
+template<typename T>
 class BinaryTree
 {
 private:
     struct Node
     {
-        int key = 0;
+        T key = 0;
         Node* parent = nullptr;
         Node* left = nullptr;
         Node* right = nullptr;
         Node() {}
-        Node(int value)
+        Node(T value)
         {
             key = value;
         }
@@ -21,14 +22,16 @@ private:
     unsigned int size = 0;
 public:
     BinaryTree();
-    bool Add(int value);
-    bool Remove(int value);
+    bool Add(T value);
+    bool Remove(T value);
     bool Empty();
+    unsigned int Count(T value);
     void Print(Node *root, int spacing);
-    Node *Check(int value);
+    Node *Check(T value);
     Node* getRoot() const;
     unsigned int getSize() const;
 private:
     Node* minimumKey(Node* n);
+    Node* leafNode(bool left = true);
 };
 
