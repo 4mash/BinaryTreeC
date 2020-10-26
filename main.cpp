@@ -18,11 +18,9 @@ int main(void)
 	tree->Add(12);
 	tree->Add(18);
 	tree->Add(30);
-	tree->Add(12);
 	tree->Add(19);
 	tree->Add(25);
 	tree->Print(tree->getRoot(), 0);
-	tree->Remove(15);
 	tree->Remove(20);
 	tree->Empty();
 	std::cout << "Size: " << tree->getSize() << std::endl;

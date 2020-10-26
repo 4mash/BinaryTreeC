@@ -16,6 +16,13 @@ private:
         {
             key = value;
         }
+        ~Node()
+        {
+            key = 0;
+            parent = nullptr;
+            left = nullptr;
+            right = nullptr;
+        }
     };
 
     Node* root = nullptr;
@@ -33,5 +40,6 @@ public:
 private:
     Node* minimumKey(Node* n);
     Node* leafNode(bool left = true);
+    void Delete(Node*& p);
 };
 

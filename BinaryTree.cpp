@@ -121,13 +121,14 @@ bool BinaryTree<T>::Empty()
 			n = n->left;
 		}
 		else if (n->right != nullptr)
-		{
-			std::cout << " " << n->key << " ";
+		{	
 			n = n->right;
 		}
 		else if (n->right == nullptr && n->left == nullptr)
 		{
-			
+			std::cout << " " << n->key << " ";
+			Delete(n);
+			if (root != nullptr) n = root;
 		}
 	}
 	return true;
@@ -157,20 +158,15 @@ void BinaryTree<T>::Print(BinaryTree<T>::Node *n, int spacing)
 	if (n == nullptr)
 		return;
 
-	// Increase distance between levels  
 	spacing += 10;
 
-	// Process right child first  
 	Print(n->right, spacing);
 
-	// Print current node after space  
-	// count  
 	std::cout << std::endl;
 	for (int i = 10; i < spacing; i++)
 		std::cout << " ";
 	std::cout << n->key << "\n";
 
-	// Process left child  
 	Print(n->left, spacing);
 }
 
@@ -232,6 +228,13 @@ typename BinaryTree<T>::Node* BinaryTree<T>::leafNode(bool left)
 	}
 
 	return n;
+}
+
+template<typename T>
+void BinaryTree<T>::Delete(Node*& p)
+{
+	delete p;
+	p = NULL;
 }
 
 
