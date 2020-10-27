@@ -40,6 +40,5 @@ public:
 private:
     Node* minimumKey(Node* n);
     Node* leafNode(bool left = true);
-    void Delete(Node*& p);
 };
 

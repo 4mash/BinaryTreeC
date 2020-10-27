@@ -83,6 +83,7 @@ bool BinaryTree<T>::Remove(T value)
 			else successor->parent->right = successor->left;
 		}	
 		delete successor;
+		*successor = NULL;
 		size--;
 	}
 	else	//Deletion node has at least one child.
@@ -104,31 +105,38 @@ template<typename T>
 bool BinaryTree<T>::Empty()
 {
 	if (root == nullptr) return false;
-	if (root->left == nullptr && root->right == nullptr)
-	{
-		delete root;
-		root = nullptr;
-		size = 0;
-		return true;
-	}
 	BinaryTree<T>::Node* n = root;
-	BinaryTree<T>::Node* t = nullptr;
-
 	while (n != nullptr)
 	{
 		if (n->left != nullptr)
 		{
-			n = n->left;
+			if (n->left->right == nullptr && n->left->left == nullptr)
+			{
+				std::cout << " " << n->left->key << " ";
+				delete n->left;
+				n->left = nullptr;
+				if (root != nullptr) n = root;
+			}
+			else n = n->left;
 		}
 		else if (n->right != nullptr)
 		{	
-			n = n->right;
+			if (n->right->right == nullptr && n->right->left == nullptr)
+			{
+				std::cout << " " << n->right->key << " ";
+				delete n->right;
+				n->right = nullptr;
+				if (root != nullptr) n = root;
+			}
+			else n = n->right;
 		}
 		else if (n->right == nullptr && n->left == nullptr)
 		{
 			std::cout << " " << n->key << " ";
-			Delete(n);
-			if (root != nullptr) n = root;
+			delete root;
+			root = nullptr;
+			size = 0;
+			return true;
 		}
 	}
 	return true;
@@ -228,13 +236,6 @@ typename BinaryTree<T>::Node* BinaryTree<T>::leafNode(bool left)
 	}
 
 	return n;
-}
-
-template<typename T>
-void BinaryTree<T>::Delete(Node*& p)
-{
-	delete p;
-	p = NULL;
 }
 
 
