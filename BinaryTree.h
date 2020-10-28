@@ -29,12 +29,12 @@ private:
     unsigned int size = 0;
 public:
     BinaryTree();
-    bool Add(T value);
-    bool Remove(T value);
+    bool Insert(T value);
+    bool Delete(T value);
     bool Empty();
     unsigned int Count(T value);
     void Print(Node *root, int spacing);
-    Node *Check(T value);
+    Node *Find(T value);
     Node* getRoot() const;
     unsigned int getSize() const;
 private:

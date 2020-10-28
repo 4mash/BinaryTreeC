@@ -8,7 +8,7 @@ BinaryTree<T>::BinaryTree()
 }
 
 template<typename T>
-bool BinaryTree<T>::Add(T value)
+bool BinaryTree<T>::Insert(T value)
 {
 	if (root == nullptr)
 	{
@@ -46,9 +46,9 @@ bool BinaryTree<T>::Add(T value)
 }
 
 template<typename T>
-bool BinaryTree<T>::Remove(T value)
+bool BinaryTree<T>::Delete(T value)
 {
-	BinaryTree<T>::Node* n = Check(value);
+	BinaryTree<T>::Node* n = Find(value);
 	if (n == nullptr) return false;
 	BinaryTree<T>::Node* parent = n->parent;
 	if (n->left == nullptr && n->right == nullptr)	//Node to be deleted has no children, is a leaf node.
@@ -83,7 +83,6 @@ bool BinaryTree<T>::Remove(T value)
 			else successor->parent->right = successor->left;
 		}	
 		delete successor;
-		*successor = NULL;
 		size--;
 	}
 	else	//Deletion node has at least one child.
@@ -105,6 +104,7 @@ template<typename T>
 bool BinaryTree<T>::Empty()
 {
 	if (root == nullptr) return false;
+
 	BinaryTree<T>::Node* n = root;
 	while (n != nullptr)
 	{
@@ -179,7 +179,7 @@ void BinaryTree<T>::Print(BinaryTree<T>::Node *n, int spacing)
 }
 
 template<typename T>
-typename BinaryTree<T>::Node* BinaryTree<T>::Check(T value)
+typename BinaryTree<T>::Node* BinaryTree<T>::Find(T value)
 {
 	BinaryTree<T>::Node* n = root;
 	while (n != nullptr)

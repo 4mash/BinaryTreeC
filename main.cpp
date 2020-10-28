@@ -11,18 +11,19 @@ int main(void)
 	{
 		tree->Add(rand() % 25);
 	}*/
-	tree->Add(15);
-	tree->Add(10);
-	tree->Add(20);
-	tree->Add(8);
-	tree->Add(12);
-	tree->Add(18);
-	tree->Add(30);
-	tree->Add(19);
-	tree->Add(25);
+	tree->Insert(15);
+	tree->Insert(10);
+	tree->Insert(20);
+	tree->Insert(8);
+	tree->Insert(12);
+	tree->Insert(18);
+	tree->Insert(30);
+	tree->Insert(19);
+	tree->Insert(25);
+	tree->Delete(20);
 	tree->Print(tree->getRoot(), 0);
 	tree->Empty();
 	std::cout << "\nSize: " << tree->getSize() << std::endl;
-	std::cout << "Key " << 12 << ((tree->Check(12)) ? " does exist" : " does not exist!");
+	std::cout << "Key " << 12 << ((tree->Find(12)) ? " does exist" : " does not exist!");
 	return 0;
 }
